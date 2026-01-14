@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://behknac50tr2i"]
+
+[ext_resource type="Script" path="res://scripts/spike.gd" id="1_mivd3"]
+
+[node name="Spike" type="Area2D"]
+collision_layer = 4
+script = ExtResource("1_mivd3")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+modulate = Color(1, 0.2, 0.2, 1)
+polygon = PackedVector2Array(0, 64, 64, 64, 32, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
