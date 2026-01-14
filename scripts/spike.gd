@@ -2,6 +2,9 @@ extends Area2D
 
 var speed : float = 280.0
 
+func _ready() -> void:
+	print("spawned in")
+
 func _process(delta):
 	delta = min(delta, 0.05)
 	position.x -= speed * delta
