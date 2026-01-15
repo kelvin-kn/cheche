@@ -6,7 +6,6 @@ var interval : float = 1.4
 var active : bool = false
 var ground_top_y := 0.0
 
-
 func start():
 	active = true
 	timer = 0.0
@@ -26,6 +25,6 @@ func _process(delta):
 
 func spawn_spike():
 	var spike = spike_scene.instantiate()
-	var spike_height = 0  # known size
+	var spike_height = 4  # known size
 	spike.position = Vector2(get_viewport_rect().size.x + 40, ground_top_y - spike_height)
 	add_child(spike)

@@ -5,9 +5,13 @@ const SAFE_BOTTOM_MARGIN : int = 150
 enum GameState { READY, RUNNING, DEAD }
 var state: GameState = GameState.READY
 
-var distance : int = 0
+var distance : = 0
 var world_speed : float = 280.0  # must match spike speed
-var rate : float = 0.1
+var rate : float = 0.5
+
+@export var base_speed : float = 300.0
+@export var max_speed := 700.0
+@export var speed_increase_per_1000 := 50.0
 
 @onready var player : CharacterBody2D = $Player
 @onready var spawner : Node2D = $Spawner
@@ -30,6 +34,10 @@ func position_ground():
 
 func get_ground_top_y() -> float:
 	return ground.position.y - ground_height / 2
+	
+func get_current_speed() -> float:
+	var extra := (distance / 1000.0) * speed_increase_per_1000
+	return min(base_speed + extra, max_speed)
 
 func _process(delta):
 	delta = min(delta, 0.05)
@@ -37,8 +45,11 @@ func _process(delta):
 	if state == GameState.RUNNING:
 		distance += world_speed * delta * rate
 		world_speed += 1 * delta
-		score_label.text = "DISTANCE" + str(int(distance))
+		score_label.text = "DISTANCE:" + str(int(distance))
 		
+		for spike in spawner.get_children():
+			spike.position.x -= get_current_speed() * delta
+			
 func enter_ready():
 	state = GameState.READY
 	distance = 0
@@ -61,6 +72,7 @@ func enter_running():
 	title_label.visible = false
 	score_label.show()
 	spawner.start()
+	
 
 func enter_dead():
 	state = GameState.DEAD
