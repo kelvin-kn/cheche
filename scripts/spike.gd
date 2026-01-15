@@ -3,12 +3,13 @@ extends Area2D
 var speed : float = 280.0
 
 func _ready() -> void:
-	print("spawned in")
+	pass
 
 func _process(delta):
 	delta = min(delta, 0.05)
 	position.x -= speed * delta
-
+	position.y = max(position.y, 0)
+	
 	# Clean up when off-screen
 	if position.x < -100:
 		queue_free()

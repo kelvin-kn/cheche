@@ -6,6 +6,9 @@ const MAX_FALL_SPEED : float = 1200.0
 
 @onready var spawner: Node2D = $"../Spawner"
 
+func _ready() -> void:
+	reset()
+
 func _physics_process(delta):
 	# Clamp delta to avoid tab-switch exploits
 	delta = min(delta, 0.05)
@@ -22,10 +25,11 @@ func _physics_process(delta):
 	move_and_slide()
 
 func reset():
-	position = Vector2(120, 1000)
+	var viewport_height = get_viewport_rect().size.y
+	position = Vector2(120, viewport_height - 500)
 	velocity = Vector2.ZERO
 	set_physics_process(true)
-	
+
 func die():
 	set_physics_process(false)
 	velocity = Vector2.ZERO

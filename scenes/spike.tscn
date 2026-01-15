@@ -11,7 +11,7 @@ color = Color(1, 0.2, 0.2, 1)
 polygon = PackedVector2Array(0, 64, 64, 64, 32, 0)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-modulate = Color(1, 0.2, 0.2, 1)
+modulate = Color(1, 0.133333, 0.133333, 1)
 polygon = PackedVector2Array(0, 64, 64, 64, 32, 0)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
