@@ -9,7 +9,6 @@ func _process(delta):
 	delta = min(delta, 0.05)
 	#position.x -= speed * delta
 	position.y = max(position.y, 0)
-	
 
 
 	# Clean up when off-screen
