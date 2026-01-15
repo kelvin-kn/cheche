@@ -18,10 +18,10 @@ func _process(delta):
 		return
 	delta = min(delta, 0.05)
 	timer += delta
-
-	if timer >= interval:
-		timer = 0
-		spawn_spike()
+#
+	#if timer >= interval:
+		#timer = 0
+		#spawn_spike()
 
 func spawn_spike():
 	var spike = spike_scene.instantiate()

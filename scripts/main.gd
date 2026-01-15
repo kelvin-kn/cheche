@@ -1,14 +1,18 @@
 extends Node2D
 
 const SAFE_BOTTOM_MARGIN : int = 150
+const MIN_SPIKE_SPACING := 300.0
+const MAX_SPIKE_SPACING := 450.0
+
 
 enum GameState { READY, RUNNING, DEAD }
 var state: GameState = GameState.READY
 
-var distance : = 0
+var distance : int = 0
 var world_speed : float = 280.0  # must match spike speed
-var rate : float = 0.5
 
+var distance_since_last_spike : float = 0.0
+var target_spike_distance : float = 0.0
 @export var base_speed : float = 300.0
 @export var max_speed := 700.0
 @export var speed_increase_per_1000 := 50.0
@@ -23,6 +27,7 @@ var rate : float = 0.5
 @onready var ground: StaticBody2D = $Ground
 @onready var ground_collision_shape: CollisionShape2D = $Ground/CollisionShape2D
 @onready var ground_height : float = ground_collision_shape.shape.size.y
+
 
 func _ready():
 	position_ground()
@@ -41,15 +46,29 @@ func get_current_speed() -> float:
 
 func _process(delta):
 	delta = min(delta, 0.05)
-	
+
 	if state == GameState.RUNNING:
-		distance += world_speed * delta * rate
+		update_spikes(delta)
+		distance += world_speed * delta
 		world_speed += 1 * delta
 		score_label.text = "DISTANCE:" + str(int(distance))
 		
 		for spike in spawner.get_children():
 			spike.position.x -= get_current_speed() * delta
 			
+func update_spikes(delta):
+	var speed := get_current_speed()
+	distance_since_last_spike += speed * delta
+
+	# scale spacing slightly by speed to keep difficulty consistent
+	var spacing_min := MIN_SPIKE_SPACING * (base_speed / speed)
+	var spacing_max := MAX_SPIKE_SPACING * (base_speed / speed)
+
+	if distance_since_last_spike >= target_spike_distance:
+		spawner.spawn_spike()
+		distance_since_last_spike = 0.0
+		target_spike_distance = randf_range(spacing_min, spacing_max)
+
 func enter_ready():
 	state = GameState.READY
 	distance = 0
@@ -63,6 +82,8 @@ func enter_ready():
 	restart.visible = false
 	title_label.visible = true
 	score_label.hide()
+	
+	target_spike_distance = randf_range(MIN_SPIKE_SPACING,MAX_SPIKE_SPACING)
 	
 func enter_running():
 	state = GameState.RUNNING
