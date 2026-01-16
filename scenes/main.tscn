@@ -59,7 +59,7 @@ offset_right = 129.5
 offset_bottom = 66.0
 grow_horizontal = 2
 theme = SubResource("Theme_8giqa")
-text = "SQUARE"
+text = "SQUARE JUMP"
 
 [node name="Start" type="Button" parent="CanvasLayer"]
 anchors_preset = 8

@@ -4,9 +4,13 @@ const GRAVITY : float = 1800.0
 const JUMP_FORCE : float = -700.0
 const MAX_FALL_SPEED : float = 1200.0
 
+const JUMP = preload("res://assets/sounds/jump.mp3")
+const FAIL = preload("res://assets/sounds/fail.wav")
+
 var jump_count = 0
 
 @onready var spawner: Node2D = $"../Spawner"
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 func _ready() -> void:
 	reset()
@@ -24,8 +28,10 @@ func _physics_process(delta):
 	if is_on_floor():
 		jump_count = 0
 	if Input.is_action_just_pressed("jump") and jump_count <= 2:
-			velocity.y = JUMP_FORCE
-			jump_count += 1
+		audio_stream_player.stream = JUMP
+		audio_stream_player.play()
+		velocity.y = JUMP_FORCE
+		jump_count += 1
 
 	move_and_slide()
 
@@ -36,6 +42,8 @@ func reset():
 	set_physics_process(true)
 
 func die():
+	audio_stream_player.stream = FAIL
+	audio_stream_player.play()
 	set_physics_process(false)
 	velocity = Vector2.ZERO
 	get_parent().enter_dead()

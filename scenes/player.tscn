@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b5k6kiqqnygnp"]
+[gd_scene load_steps=4 format=3 uid="uid://b5k6kiqqnygnp"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_2bj3f"]
+[ext_resource type="AudioStream" uid="uid://cwisfyxxnb2fm" path="res://assets/sounds/jump.mp3" id="2_8ifr2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cxid4"]
 size = Vector2(64, 64)
@@ -18,3 +19,6 @@ offset_bottom = 40.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(32, 32)
 shape = SubResource("RectangleShape2D_cxid4")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_8ifr2")

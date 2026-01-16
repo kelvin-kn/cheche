@@ -101,8 +101,6 @@ func enter_running():
 
 func enter_dead():
 	state = GameState.DEAD
-
-
 	restart.visible = true
 
 	# Web hook (safe on desktop)
