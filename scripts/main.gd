@@ -29,8 +29,10 @@ var target_spike_distance : float = 0.0
 @onready var ground_collision_shape: CollisionShape2D = $Ground/CollisionShape2D
 @onready var ground_height : float = ground_collision_shape.shape.size.y
 
+var is_dead = false
 
 func _ready():
+	
 	position_ground()
 	enter_ready()
 	
@@ -102,11 +104,17 @@ func enter_running():
 func enter_dead():
 	state = GameState.DEAD
 	restart.visible = true
+	
+	
+	is_dead = true
 
 	# Web hook (safe on desktop)
-	if OS.has_feature("web"):
+	if OS.has_feature("web") and is_dead:
 		JavaScriptBridge.eval("window.onGameScore && window.onGameScore(" + str(int(distance)) + ");")
+		is_dead = false
 		
+
+
 func restart_game():
 	enter_ready()
 	
