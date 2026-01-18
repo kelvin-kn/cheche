@@ -7,7 +7,7 @@ const MAX_FALL_SPEED : float = 1200.0
 const JUMP = preload("res://assets/sounds/jump.mp3")
 const FAIL = preload("res://assets/sounds/fail.wav")
 
-var jump_count = 0
+var jump_count : int = 0
 
 @onready var spawner: Node2D = $"../Spawner"
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer

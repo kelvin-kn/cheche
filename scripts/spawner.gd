@@ -3,7 +3,7 @@ extends Node2D
 @export var spike_scene: PackedScene
 
 var active : bool = false
-var ground_top_y := 0.0
+var ground_top_y : float = 0.0
 
 func spawn_spike():
 	var spike = spike_scene.instantiate()

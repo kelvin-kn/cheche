@@ -105,7 +105,6 @@ func enter_dead():
 	state = GameState.DEAD
 	restart.visible = true
 	
-	
 	is_dead = true
 
 	# Web hook (safe on desktop)
@@ -113,8 +112,6 @@ func enter_dead():
 		JavaScriptBridge.eval("window.onGameScore && window.onGameScore(" + str(int(distance)) + ");")
 		is_dead = false
 		
-
-
 func restart_game():
 	enter_ready()
 	
