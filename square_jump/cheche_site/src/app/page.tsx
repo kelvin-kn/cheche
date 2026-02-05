@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Home() {
   const [playing, setPlaying] = useState(false);
@@ -8,11 +8,13 @@ export default function Home() {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Listen for fullscreen change to update button icon
-  if (typeof document !== "undefined") {
-    document.addEventListener("fullscreenchange", () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    });
-  }
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.addEventListener("fullscreenchange", () => {
+        setIsFullscreen(!!document.fullscreenElement);
+      });
+    }
+  }, []);
 
   const toggleFullscreen = () => {
     if (!iframeRef.current) return;
@@ -45,90 +47,42 @@ export default function Home() {
   };
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#111",
-        color: "#eee",
-        fontFamily: "Arial, sans-serif",
-        padding: "2rem",
-        boxSizing: "border-box",
-      }}
-    >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>
+    <main className="min-h-screen bg-gray-900 text-gray-100 p-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-8">
           Cheche Game
         </h1>
 
         {!playing ? (
-          <div style={{ textAlign: "center" }}>
-            <p style={{ fontSize: "1.3rem", marginBottom: "1.5rem" }}>
+          <div className="text-center">
+            <p className="text-xl mb-6">
               Click to start playing
             </p>
             <button
               onClick={() => setPlaying(true)}
-              style={{
-                padding: "1rem 3rem",
-                fontSize: "1.6rem",
-                background: "#e91e63",
-                color: "white",
-                border: "none",
-                borderRadius: "12px",
-                cursor: "pointer",
-                boxShadow: "0 4px 15px rgba(233, 30, 99, 0.4)",
-              }}
+              className="px-12 py-4 text-2xl bg-pink-500 text-white rounded-xl cursor-pointer shadow-lg shadow-pink-500/40 hover:bg-pink-600 transition-colors"
             >
               Play Now
             </button>
           </div>
         ) : (
-          <div style={{ textAlign: "center", position: "relative" }}>
+          <div className="text-center relative">
             {/* Game container */}
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "900px",
-                margin: "0 auto 1rem",
-                border: "4px solid #444",
-                borderRadius: "12px",
-                overflow: "hidden",
-                background: "#000",
-                boxShadow: "0 10px 30px rgba(0,0,0,0.6)",
-              }}
-            >
+            <div className="w-full max-w-4xl mx-auto mb-4 border-4 border-gray-600 rounded-xl overflow-hidden bg-black shadow-2xl">
               <iframe
                 ref={iframeRef}
                 src="/game/index.html"
-                style={{
-                  width: "100%",
-                  height: "600px", // adjust to your game's aspect ratio
-                  border: "none",
-                  display: "block",
-                }}
+                className="w-full h-[600px] block"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
               />
             </div>
 
             {/* Controls below game */}
-            <div
-              style={{
-                marginTop: "1rem",
-                display: "flex",
-                justifyContent: "center",
-                gap: "1rem",
-              }}
-            >
+            <div className="mt-4 flex justify-center gap-4">
               <button
                 onClick={() => setPlaying(false)}
-                style={{
-                  padding: "0.8rem 2rem",
-                  background: "#555",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                }}
+                className="px-8 py-3 bg-gray-600 text-white rounded-lg cursor-pointer hover:bg-gray-700 transition-colors"
               >
                 Back to Menu
               </button>
@@ -136,35 +90,16 @@ export default function Home() {
               <button
                 onClick={toggleFullscreen}
                 title={isFullscreen ? "Exit Fullscreen" : "Go Fullscreen"}
-                style={{
-                  padding: "0.8rem",
-                  background: isFullscreen ? "#ff5722" : "#333",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontSize: "1.2rem",
-                  width: "48px",
-                  height: "48px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                className={`p-3 text-white rounded-lg cursor-pointer text-xl w-12 h-12 flex items-center justify-center transition-colors ${
+                  isFullscreen ? "bg-orange-500 hover:bg-orange-600" : "bg-gray-700 hover:bg-gray-800"
+                }`}
               >
-                {isFullscreen ? "⤢" : "⤡"}{" "}
-                {/* Simple icon: expand / compress */}
+                {isFullscreen ? "⤢" : "⤡"}
               </button>
 
               <button
                 onClick={() => window.location.reload()}
-                style={{
-                  padding: "0.8rem 2rem",
-                  background: "#333",
-                  color: "#ccc",
-                  border: "1px solid #666",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                }}
+                className="px-8 py-3 bg-gray-700 text-gray-300 border border-gray-500 rounded-lg cursor-pointer hover:bg-gray-800 transition-colors"
               >
                 Reload Game
               </button>
